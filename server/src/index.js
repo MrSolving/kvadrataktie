@@ -11,6 +11,8 @@ import portfolioRoutes from './routes/portfolio.js';
 import adminRoutes from './routes/admin.js';
 import periodRoutes from './routes/periods.js';
 import votingRoutes from './routes/voting.js';
+import { db } from './db/index.js';
+import { runSeed } from './db/seed.js';
 
 dotenv.config();
 
@@ -44,6 +46,13 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: 'Internt serverfel' });
 });
+
+// Kör seed automatiskt om databasen är tom (första uppstart / ny miljö)
+const userCount = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
+if (userCount === 0) {
+  console.log('Tom databas upptäckt — kör initial seed...');
+  runSeed();
+}
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
