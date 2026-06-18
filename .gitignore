@@ -1,0 +1,27 @@
+# Beroenden
+node_modules/
+
+# Databas (innehåller riktig data — pushas aldrig)
+server/data/
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Miljövariabler (innehåller hemligheter)
+.env
+.env.local
+.env.production
+
+# Build-output
+client/dist/
+client/.vite/
+
+# Claude Code
+.claude/
+
+# Editorer & OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

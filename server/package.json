@@ -1,0 +1,21 @@
+{
+  "name": "kvadrat-aktiehandel-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "TZ=Europe/Stockholm node --watch src/index.js",
+    "start": "TZ=Europe/Stockholm node src/index.js",
+    "seed": "TZ=Europe/Stockholm node src/db/seed.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1"
+  }
+}
