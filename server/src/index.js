@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import authRoutes from './routes/auth.js';
 import orderRoutes from './routes/orders.js';
@@ -11,6 +13,9 @@ import periodRoutes from './routes/periods.js';
 import votingRoutes from './routes/voting.js';
 
 dotenv.config();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const isProd = process.env.NODE_ENV === 'production';
 
 const app = express();
 app.use(cors());
@@ -25,6 +30,15 @@ app.use('/api/periods', periodRoutes);
 app.use('/api/voting', votingRoutes);
 
 app.get('/api/health', (req, res) => res.json({ ok: true }));
+
+// Servera React-bygget i produktion
+if (isProd) {
+  const clientDist = path.resolve(__dirname, '../../client/dist');
+  app.use(express.static(clientDist));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
 
 app.use((err, req, res, next) => {
   console.error(err);
